@@ -8,6 +8,7 @@ namespace GradeBook.GradeBooks
 {
     public class RankedGradeBook : BaseGradeBook
     {
+        const int MINSTUDENTS = 5;
         public RankedGradeBook(string name) : base(name)
         {
             Type = GradeBookType.Ranked;
@@ -16,7 +17,7 @@ namespace GradeBook.GradeBooks
 
         public override char GetLetterGrade(double averageGrade)
         {
-            if (BelowMinAcceptableStudentAmount())
+            if (MinAcceptableStudentAmountCheck())
             {
                 throw new InvalidOperationException("Insufficient number of students; 5 student minimum required.");
             }
@@ -43,28 +44,28 @@ namespace GradeBook.GradeBooks
             }
         }
 
-        public bool BelowMinAcceptableStudentAmount()
+        public bool MinAcceptableStudentAmountCheck()
         {
-            return (Students.Count < 5);
+            return (Students.Count < MINSTUDENTS);
         }
 
         public override void CalculateStatistics()
         {
-            if (BelowMinAcceptableStudentAmount())
+            if (MinAcceptableStudentAmountCheck())
             {
-                throw new InvalidOperationException("Insufficient number of students; 5 student minimum required.");
+                Console.WriteLine("Ranked grading requires at least 5 students with grades in order to properly calculate a student's overall grade.");
+                return;
             }
-
             base.CalculateStatistics();
         }
 
         public override void CalculateStudentStatistics(string name)
         {
-            if (BelowMinAcceptableStudentAmount())
+            if (MinAcceptableStudentAmountCheck())
             {
-                throw new InvalidOperationException("Insufficient number of students; 5 student minimum required.");
+                Console.WriteLine("Ranked grading requires at least 5 students with grades in order to properly calculate a student's overall grade.");
+                return;
             }
-
             base.CalculateStudentStatistics(name);
         }
     }
