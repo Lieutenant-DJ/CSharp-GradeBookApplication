@@ -47,5 +47,25 @@ namespace GradeBook.GradeBooks
         {
             return (Students.Count < 5);
         }
+
+        public override void CalculateStatistics()
+        {
+            if (BelowMinAcceptableStudentAmount())
+            {
+                throw new InvalidOperationException("Insufficient number of students; 5 student minimum required.");
+            }
+
+            base.CalculateStatistics();
+        }
+
+        public override void CalculateStudentStatistics(string name)
+        {
+            if (BelowMinAcceptableStudentAmount())
+            {
+                throw new InvalidOperationException("Insufficient number of students; 5 student minimum required.");
+            }
+
+            base.CalculateStudentStatistics(name);
+        }
     }
 }
